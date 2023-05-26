@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flash Cards</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sets-container"></div>
+      <div class="cards-container">
+        <div class="add-form-box">
+          <form action="" class="create-new-form">
+            <div class="left-box-alternative invisible">
+              <div class="del-btn-holder">
+                <button type="button" class="btn-exit">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <label><h3>Create a new set</h3></label>
+              <br />
+              <label><h4>Name your set</h4></label>
+              <br />
+              <input class="set-name" type="text" />
+              <br />
+              <br />
+              <button class="btn btn-submit-set" type="submit">Add</button>
+            </div>
+            <div class="left-box invisible">
+              <div class="del-btn-holder">
+                <button type="button" class="btn-exit">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <label><h3>Create a new card</h3></label>
+              <br />
+              <label><h4>Question</h4></label>
+              <input class="q" type="text" />
+              <br />
+              <label><h4>Answer</h4></label>
+              <input class="a" type="text" />
+              <br />
+              <br />
+              <select id="dropdown"></select>
+              <button class="btn btn-submit-add" type="submit">Add</button>
+            </div>
+            <div class="right-box">
+              <button type="button" class="btn btn-add-card">Add a card</button>
+              <button type="button" class="btn btn-add-set">Add a set</button>
+            </div>
+          </form>
+        </div>
+        <div class="display-box">
+          <button class="arrow-left">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="card-body">
+            <div class="tape"></div>
+          </div>
+          <button class="arrow-right">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/f6dababe73.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- TEMPLATES -->
+    <div class="set set-template invisible"></div>
+    <div class="text-box text-box-template invisible">
+      <p class="question"></p>
+      <p class="answer invisible"></p>
+      <div class="btns-box">
+        <button class="btn btn-edit">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </button>
+        <button class="btn btn-del">
+          <i class="fa-regular fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
