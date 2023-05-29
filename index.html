@@ -25,7 +25,9 @@
               <input class="set-name" type="text" />
               <br />
               <br />
-              <button class="btn btn-submit-set" type="submit">Add</button>
+              <button class="btn btn-submit-set" type="submit" value="add-set">
+                Add
+              </button>
             </div>
             <div class="left-box invisible">
               <div class="del-btn-holder">
@@ -43,7 +45,9 @@
               <br />
               <br />
               <select id="dropdown"></select>
-              <button class="btn btn-submit-add" type="submit">Add</button>
+              <button class="btn btn-submit-add" type="submit" value="add-card">
+                Add
+              </button>
             </div>
             <div class="right-box">
               <button type="button" class="btn btn-add-card">Add a card</button>
@@ -70,7 +74,12 @@
       crossorigin="anonymous"
     ></script>
     <!-- TEMPLATES -->
-    <div class="set set-template invisible"></div>
+    <div class="set set-template invisible">
+      <p class="set-name"></p>
+      <button class="btn-set-delete">
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+    </div>
     <div class="text-box text-box-template invisible">
       <p class="question"></p>
       <p class="answer invisible"></p>
@@ -82,6 +91,18 @@
           <i class="fa-regular fa-trash-can"></i>
         </button>
       </div>
+    </div>
+    <div class="form-edit form-edit-template invisible">
+      <form action="" class="form-edits">
+        <input class="fieldA" type="text" />
+        <br />
+        <br />
+
+        <input class="fieldB" type="text" />
+        <button class="btn btn-submit-edits" type="submit" value="save-card">
+          Save Edits
+        </button>
+      </form>
     </div>
   </body>
 </html>

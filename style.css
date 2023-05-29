@@ -22,7 +22,7 @@ body {
   align-items: flex-start;
   justify-content: center;
   margin: auto;
-  width: 800px;
+  width: 850px;
   height: 600px;
   background-color: #959292;
 }
@@ -30,7 +30,7 @@ body {
 .sets-container {
   padding-top: 20px;
   padding-bottom: 20px;
-  width: 150px;
+  width: 200px;
   height: 600px;
   gap: 10px;
   display: flex;
@@ -143,11 +143,21 @@ body {
 .set {
   border-radius: 15px;
   display: flex;
+  cursor: pointer;
+
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   width: 90%;
   height: auto;
   background-color: #d9f938;
+}
+
+.set-name {
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  padding-left: 5px;
+  display: inline-block;
+  word-wrap: break-word;
 }
 
 .fa-solid {
@@ -161,18 +171,6 @@ body {
   font-size: 20px;
   /* padding-right: 20px; */
 }
-
-/* .btns-box {
-  background-color: #e70cbe;
-   padding-bottom: 20px;
-  padding-right: 20px; 
- gap: 10px; 
-  height: 40px;
-  width: 400px; 
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-} */
 
 .arrow-left,
 .arrow-right {
@@ -198,7 +196,28 @@ body {
   border: none;
   cursor: pointer;
 }
+.btn-set-delete {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 5px;
+  width: 15px;
+  height: 15px;
+}
 
+.form-edit {
+  width: 400px;
+  height: 200px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fieldA,
+.fieldB {
+  border: none;
+  font-size: 20px;
+}
 .hidden {
   visibility: hidden;
 }

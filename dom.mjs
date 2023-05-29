@@ -7,6 +7,7 @@ const textBoxTemplate = getEl(".text-box-template");
 const tape = getEl(".tape");
 const parentSets = getEl(".sets-container");
 const setTemplate = getEl(".set-template");
+const formEditTemplate = getEl(".form-edit-template");
 const dropdown = getEl("#dropdown");
 const leftBox = getEl(".left-box");
 const leftBoxAlt = getEl(".left-box-alternative");
@@ -17,10 +18,12 @@ const cardBody = getEl(".card-body");
 // Submit
 const inputQ = getEl(".q");
 const inputA = getEl(".a");
+const inputSet = getEl(".set-name");
 
 export default {
   parentWrapper,
   textBoxTemplate,
+  formEditTemplate,
   tape,
   parentSets,
   setTemplate,
@@ -32,4 +35,5 @@ export default {
   addCardForm,
   cardBody,
   leftBoxAlt,
+  inputSet,
 };
