@@ -2,11 +2,27 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Flash Cards</title>
+    <title>Cardzilla</title>
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="script.js" defer></script>
   </head>
   <body>
+    <dialog class="notice-dialog">
+      <p></p>
+      <button class="close-dialog-btn" onclick="closeDialog()">Ok</button>
+    </dialog>
+    <dialog class="confirmation">
+      <header>
+        <h2 class="header">Confirmation</h2>
+      </header>
+      <section>
+        <p>Are you sure you want to permanently delete this set?</p>
+      </section>
+      <footer>
+        <button class="close-dialog-btn" onclick="closeDialog()">Cancel</button>
+        <button class="yes-delete-btn">Yes, delete it</button>
+      </footer>
+    </dialog>
     <div class="wrapper">
       <div class="sets-container"></div>
       <div class="cards-container">
@@ -85,7 +101,7 @@
       <p class="answer invisible"></p>
       <div class="btns-box">
         <button class="btn btn-edit">
-          <i class="fa-regular fa-pen-to-square"></i>
+          <i class="fa-regular fa-pen-to-square btn-edit"></i>
         </button>
         <button class="btn btn-del">
           <i class="fa-regular fa-trash-can"></i>

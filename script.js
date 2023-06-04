@@ -18,6 +18,10 @@ function renderSet(set) {
 }
 //-----------------------
 function renderTape(pairs, set) {
+  if (!pairs.length) {
+    dom.displayNotice("This set is empty yet");
+  }
+  console.log(set);
   // const id = Math.floor(Math.random() * 10000000);
   // console.log(id);
   dom.tape.innerHTML = "";
@@ -44,13 +48,12 @@ const addCard = (question, answer, set) => {
   const pair = [question, answer];
   state.dictionary[index].cards.push(pair);
 };
+
 // (state.dictionary[set][question] = answer);
 //----------
 function renderSets(sets) {
-  console.log(sets);
   sets.forEach((set) => {
     // create a div
-    console.log(state.dictionary);
     const formatted = utils.format(set);
     const div = dom.setTemplate.cloneNode(true);
     div.childNodes[0].textContent = formatted;
@@ -62,13 +65,10 @@ function renderSets(sets) {
 }
 //------------
 function renderSetsList() {
-  console.log(state.dictionary);
   const sets = state.dictionary.map((set) => set.set);
-  console.log(sets);
-  // const sets = Object.keys(state.dictionary);
   dom.parentSets.innerHTML = "";
-
   renderSets(sets);
+  console.log(sets);
   return displayDropdown(sets);
 }
 //--------------
@@ -93,8 +93,10 @@ const addSet = (set) => {
 };
 //---------------------------
 const deleteSet = (set) => {
-  state.dictionary.filter((item) => item.set !== set);
+  state.dictionary = state.dictionary.filter((item) => item.set !== set);
   renderSetsList();
+  console.log(state.dictionary);
+  // dom.notice("The set is successfully deleted");
 };
 
 function deleteCard(pair, set) {
@@ -129,40 +131,51 @@ window.addEventListener("DOMContentLoaded", () => {
   renderSetsList();
 });
 
+// Notifications (dialogs)
+dom.body.addEventListener("click", function (event) {
+  const target = event.target;
+  if (target.classList.contains("close-dialog-btn")) {
+    console.log(target);
+
+    dom.closeDialog();
+  }
+  if (target.classList.contains("yes-delete-btn")) {
+    const set = target.parentElement.parentElement.value.trim().toLowerCase();
+    deleteSet(set);
+    dom.closeDialog();
+    dom.displayNotice("The set has been permanently deleted");
+  }
+});
+
 dom.parentWrapper.addEventListener("click", function (event) {
   const target = event.target;
   console.log(target);
-  console.log(event);
-
+  // SHIFT LEFT
   if (
     target.classList.contains("arrow-left") ||
     target.classList.contains("fa-chevron-left")
   ) {
-    if (state.counter === 0) return;
-    state.counter--;
-    console.log(state.counter);
     dom.cardBody.scrollBy(0, -200);
   }
-
+  // SHIFT RIGHT
   if (
     target.classList.contains("arrow-right") ||
     target.classList.contains("fa-chevron-right")
   ) {
-    state.counter++;
-    console.log(state.counter);
     dom.cardBody.scrollBy(0, 200);
   }
   if (target.classList.contains("set")) {
+    //___________________---------
     console.log(target);
     const textEl = target.closest(".set");
-    const pEl = textEl.querySelector(".text-name");
+    // const pEl = textEl.querySelector(".text-name");
     console.log(textEl);
     const set = textEl.textContent.toLowerCase().trim();
     return renderSet(set);
   }
 
   if (
-    // Toggle answer / quesion
+    // TOGGLE answer / quesion
     target.classList.contains("text-box") ||
     target.classList.contains("question") ||
     target.classList.contains("answer")
@@ -180,6 +193,7 @@ dom.parentWrapper.addEventListener("click", function (event) {
       question.classList.remove("invisible");
     }
   }
+  // ADD CARD
   if (target.classList.contains("btn-add-card")) {
     console.log(target);
     console.log(dom.leftBox.classList);
@@ -187,25 +201,28 @@ dom.parentWrapper.addEventListener("click", function (event) {
     console.log(dom.leftBox.classList);
     dom.rightBox.classList.add("invisible");
   }
+  // ADD SET
   if (target.classList.contains("btn-add-set")) {
     console.log(target);
     dom.leftBoxAlt.classList.remove("invisible");
     dom.rightBox.classList.add("invisible");
   }
-
+  // CLOSE ADD SET BOX
   if (target.classList.contains("fa-xmark")) {
     console.log(target);
     dom.leftBoxAlt.classList.add("invisible");
     dom.leftBox.classList.add("invisible");
     dom.rightBox.classList.remove("invisible");
   }
+  // DELETE SET
   if (target.classList.contains("fa-trash-can")) {
     if (target.parentElement.classList.contains("btn-set-delete")) {
       const text = target.parentElement.parentElement.value
         .trim()
         .toLowerCase();
-      deleteSet(text);
+      dom.displayConfirmationDelSet(text);
     }
+    // DELETE CARD
     if (target.parentElement.classList.contains("btn-del")) {
       const set = dom.tape.value;
       const textBox = target.parentElement.parentElement.parentElement;
@@ -224,38 +241,38 @@ dom.parentWrapper.addEventListener("click", function (event) {
       dom.cardBody.scrollBy(0, 200);
       // delete this current ui card
     }
-    if (
-      // Handle card's editting
-      target.classList.contains("btn-edit") ||
-      target.classList.contains("fa-pen-to-square")
-    ) {
-      // Retrieve the text
-      const parent = target.closest(".text-box");
-      const q = parent.querySelector(".question");
-      const a = parent.querySelector(".answer");
-      const textA = q.textContent.trim();
-      const textB = a.textContent.trim();
+  }
+  // EDIT CARD
+  if (
+    target.classList.contains("btn-edit") ||
+    target.classList.contains("fa-pen-to-square")
+  ) {
+    // Retrieve the text
+    const parent = target.closest(".text-box");
+    const q = parent.querySelector(".question");
+    const a = parent.querySelector(".answer");
+    const textA = q.textContent.trim();
+    const textB = a.textContent.trim();
 
-      // Create (clone and fill in) the form
-      const form = dom.formEditTemplate.cloneNode(true);
-      // Text A and text B before editting
-      const fieldA = form.querySelector(".fieldA");
-      fieldA.value = textA;
-      const fieldB = form.querySelector(".fieldB");
-      fieldB.value = textB;
-      const prevValues = String(textA, `:`, textB);
-      // Setting initial values to a button
+    // Create (clone and fill in) the form
+    const form = dom.formEditTemplate.cloneNode(true);
+    // Text A and text B before editting
+    const fieldA = form.querySelector(".fieldA");
+    fieldA.value = textA;
+    const fieldB = form.querySelector(".fieldB");
+    fieldB.value = textB;
+    const prevValues = String(textA, `:`, textB);
+    // Setting initial values to a button
 
-      form.classList.remove("invisible");
-      form.classList.remove("form-edit-template");
+    form.classList.remove("invisible");
+    form.classList.remove("form-edit-template");
 
-      form.value = String(prevValues);
+    form.value = String(prevValues);
 
-      // Hide All
-      dom.tape.classList.add("invisible");
-      // Nest the Form
-      dom.cardBody.appendChild(form);
-    }
+    // Hide All
+    dom.tape.classList.add("invisible");
+    // Nest the Form
+    dom.cardBody.appendChild(form);
   }
 });
 
@@ -264,8 +281,6 @@ dom.addCardForm.addEventListener("submit", (event) => {
   const target = event.target;
   const submitType = event.submitter.value;
   if (submitType === "add-card") {
-    console.log(target);
-
     if (dom.inputQ.value === "" || dom.inputA.value === "") return;
 
     const q = dom.inputQ.value.toLowerCase();
@@ -276,6 +291,7 @@ dom.addCardForm.addEventListener("submit", (event) => {
     dom.rightBox.classList.remove("invisible");
 
     addCard(q, a, set);
+    dom.displayNotice("The card successfully added!");
   }
 
   if (submitType === "add-set") {
@@ -291,15 +307,14 @@ dom.addCardForm.addEventListener("submit", (event) => {
     dom.rightBox.classList.remove("invisible");
 
     addSet(set);
+    dom.displayNotice("The set successfully added!");
   }
 });
 
 dom.cardBody.addEventListener("submit", (event) => {
   const target = event.target;
-
-  console.log(target.value);
   event.preventDefault();
-  console.log("submit-edits", target.parentElement.value);
+
   // retrieving data to be edited
   const fieldA = target.parentElement.querySelector(".fieldA");
   const fieldB = target.parentElement.querySelector(".fieldB");
@@ -319,13 +334,20 @@ dom.cardBody.addEventListener("submit", (event) => {
   renderSet(dom.tape.value);
 });
 // Amendments planned:
-//features:
-// local storage implement
+// FEATURES:
+// local storage
+// errors
 
-// when saving a card notify that it has been successfully saved
-//when deleting a card notify that it has been successfully saved
-
+//UI:
 // If the list is empty display This set is empty + a button to add a card: ok cancel
+
 // randomise mode;
-//bugs to fix:
+
+// shift cycle
+
+//BUGS:
+// Shifting cards (close answer when shifting)
+
+// REF:
+// dom module redo
 // api remove

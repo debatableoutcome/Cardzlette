@@ -94,11 +94,9 @@ const dictionary = [
   },
 ];
 
-let counter = 0;
-let curSet = null;
+// let curSet = null;
 
 export default {
-  counter,
   dictionary,
-  curSet,
+  // curSet,
 };

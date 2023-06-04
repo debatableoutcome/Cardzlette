@@ -24,10 +24,13 @@ body {
   margin: auto;
   width: 850px;
   height: 600px;
-  background-color: #959292;
+  background-color: #c0bcbc;
+  border-radius: 15px;
 }
 
 .sets-container {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
   padding-top: 20px;
   padding-bottom: 20px;
   width: 200px;
@@ -41,6 +44,8 @@ body {
 }
 
 .cards-container {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
   width: 650px;
   height: 600px;
   display: flex;
@@ -51,6 +56,7 @@ body {
 }
 
 .add-form-box {
+  border-top-right-radius: 15px;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -96,6 +102,7 @@ body {
   justify-content: center;
 }
 .display-box {
+  border-bottom-right-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,6 +224,49 @@ body {
 .fieldB {
   border: none;
   font-size: 20px;
+}
+
+dialog {
+  font-size: 25px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; */
+  gap: 20%;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.7);
+  width: 400px;
+  height: 200px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  border: #d9f938 2px solid;
+}
+
+dialog::backdrop {
+  background: linear-gradient(rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7));
+}
+.close-dialog-btn,
+.yes-delete-btn {
+  font-size: 20px;
+  width: 150px;
+  height: auto;
+  background-color: rgb(254, 255, 254);
+
+  border-radius: 15px;
+}
+.close-dialog-btn {
+  color: green;
+  border: 4px solid green;
+}
+.yes-delete-btn {
+  color: orangered;
+  border: 4px solid orangered;
+}
+
+#close-dialog:active {
+  background-color: rgb(231, 233, 231);
+  border: #fb0b93 2px solid;
+  color: #fb0b93;
 }
 .hidden {
   visibility: hidden;
