@@ -2,12 +2,12 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Gudea", sans-serif;
 }
 
 body {
-  background-color: #303030;
+  background-image: url("img/img.webp");
+  background-repeat: repeat;
   height: 100vh;
   width: 100vw;
   /* max-height: 800px;
@@ -16,6 +16,8 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+/* CONTAINERS */
 
 .wrapper {
   display: flex;
@@ -26,6 +28,7 @@ body {
   height: 600px;
   background-color: #c0bcbc;
   border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .sets-container {
@@ -40,7 +43,12 @@ body {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  background-color: rgb(63, 63, 61);
+  background: rgb(231, 12, 190);
+  background: linear-gradient(
+    5deg,
+    rgba(231, 12, 190, 1) 0%,
+    rgba(61, 2, 58, 1) 100%
+  );
 }
 
 .cards-container {
@@ -52,7 +60,6 @@ body {
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  background-color: rgb(88, 69, 84);
 }
 
 .add-form-box {
@@ -61,30 +68,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* gap: 5px; */
   width: 650px;
   height: 250px;
-  background-color: rgb(107, 124, 124);
+  background-color: #f2e8f2;
 }
 
 .btn-submit,
 .btn {
   border-radius: 15px;
-  background-color: #d9f938;
+  background-color: #030303;
   width: 107px;
   height: 30px;
+  color: white;
+  font-weight: 600;
 }
-.btn-exit {
-  cursor: pointer;
-  background-color: transparent;
-  color: #d9f938;
-  border: none;
-}
-/* .btn-exit:hover {
-  color: #1e2016;
-} */
-.btn-exit:active {
-  transform: scale(0.9);
-}
+
 .right-box {
   margin-bottom: 200px;
   margin-left: 350px;
@@ -102,29 +101,32 @@ body {
   justify-content: center;
 }
 .display-box {
+  gap: 15px;
   border-bottom-right-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(30, 31, 30);
+  background: #f2e8f2;
   width: 650px;
   height: 350px;
 }
 .card-body {
-  overflow: scroll;
+  overflow: hidden;
+  touch-action: none;
   display: block;
   border-radius: 15px;
   height: 200px;
   width: 400px;
-
-  background-color: rgb(255, 255, 255);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  background-color: #fafafa;
 }
 
 .tape {
   height: auto;
   width: 400px;
-  background-color: rgb(255, 255, 255);
 }
+
+/* CARDS */
 
 .question,
 .answer {
@@ -147,16 +149,22 @@ body {
   height: 200px;
   width: 400px;
 }
+
+/* SETS */
 .set {
   border-radius: 15px;
   display: flex;
   cursor: pointer;
-
+  box-shadow: 0 0 15px rgba(0, 0, 0, 5);
   align-items: center;
   justify-content: space-around;
   width: 90%;
   height: auto;
-  background-color: #d9f938;
+  background-color: #f2e8f2;
+}
+
+.set:active {
+  color: #e70cbe;
 }
 
 .set-name {
@@ -167,9 +175,27 @@ body {
   word-wrap: break-word;
 }
 
+/* BUTTONS */
+.btn-exit {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.btn-exit:active {
+  transform: scale(0.9);
+}
+.btn-submit-set {
+  width: 135px;
+}
 .fa-solid {
-  color: #d9f938;
+  color: #fb0b93;
   font-size: 40px;
+  /* padding-right: 20px; */
+}
+.fa-shuffle {
+  color: #fb0b93;
+  font-size: 20px;
   /* padding-right: 20px; */
 }
 
@@ -187,63 +213,14 @@ body {
   justify-content: center;
   width: 40px;
   height: 200px;
-  background-color: rgb(100, 101, 100);
-}
-
-.btn:hover {
-  border: #e7ede9 4px solid;
-}
-.btn:active {
-  color: #d9f938;
-  background-color: rgb(30, 31, 30);
-}
-.btn-del,
-.btn-edit {
-  background-color: transparent;
+  background-color: #0b0b0b;
   border: none;
-  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-.btn-set-delete {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 5px;
-  width: 15px;
-  height: 15px;
-}
-
-.form-edit {
-  width: 400px;
-  height: 200px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fieldA,
-.fieldB {
-  border: none;
-  font-size: 20px;
-}
-
-dialog {
-  font-size: 25px;
-  /* display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column; */
-  gap: 20%;
-  margin: auto;
-  background: rgba(255, 255, 255, 0.7);
-  width: 400px;
-  height: 200px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
-  border: #d9f938 2px solid;
-}
-
-dialog::backdrop {
-  background: linear-gradient(rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7));
+.arrow-left:active,
+.arrow-right:active {
+  color: white;
+  transform: scale(0.99);
 }
 .close-dialog-btn,
 .yes-delete-btn {
@@ -259,8 +236,8 @@ dialog::backdrop {
   border: 4px solid green;
 }
 .yes-delete-btn {
-  color: orangered;
-  border: 4px solid orangered;
+  color: red;
+  border: 4px solid red;
 }
 
 #close-dialog:active {
@@ -268,6 +245,87 @@ dialog::backdrop {
   border: #fb0b93 2px solid;
   color: #fb0b93;
 }
+
+.btn {
+  font-size: 18px;
+}
+.btn:hover {
+  border: #fb0b93 4px solid;
+}
+.btn:active {
+  color: #fb0b93;
+  transform: scale(0.99);
+  background-color: rgb(30, 31, 30);
+}
+
+.btn-del,
+.btn-edit {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.btn-set-delete {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 5px;
+  width: 15px;
+  height: 15px;
+}
+
+/* INPUTS & FORMS */
+
+.form-edit {
+  width: 400px;
+  height: 200px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fieldA,
+.fieldB {
+  border: none;
+  font-size: 20px;
+}
+#dropdown {
+  font-size: 17px;
+}
+.q,
+.a,
+#dropdown,
+.set-name {
+  padding: 3px;
+  border-radius: 15px;
+}
+.set-name {
+  height: 25px;
+}
+
+/* DIALOGS */
+
+dialog {
+  font-size: 25px;
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; */
+  gap: 20%;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.7);
+  width: 400px;
+  height: 200px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  border: #fb0b93 2px solid;
+}
+
+dialog::backdrop {
+  background: linear-gradient(rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7));
+}
+
+/* STATES */
+
 .hidden {
   visibility: hidden;
 }

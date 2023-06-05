@@ -1,66 +1,47 @@
 // Exporting module: UI (DOM selectors)
-// *****Variables********
 const getEl = (s) => document.querySelector(s);
-// Elements
-const parentWrapper = getEl(".wrapper");
-const textBoxTemplate = getEl(".text-box-template");
-const tape = getEl(".tape");
-const parentSets = getEl(".sets-container");
-const setTemplate = getEl(".set-template");
-const formEditTemplate = getEl(".form-edit-template");
-const dropdown = getEl("#dropdown");
-const leftBox = getEl(".left-box");
-const leftBoxAlt = getEl(".left-box-alternative");
-const rightBox = getEl(".right-box");
-const addCardForm = getEl(".create-new-form");
-const cardBody = getEl(".card-body");
-const body = getEl("body");
+const dom = {
+  // *****Variables**
+  // Elements
+  parentWrapper: getEl(".wrapper"),
+  textBoxTemplate: getEl(".text-box-template"),
+  tape: getEl(".tape"),
+  parentSets: getEl(".sets-container"),
+  setTemplate: getEl(".set-template"),
+  formEditTemplate: getEl(".form-edit-template"),
+  dropdown: getEl("#dropdown"),
+  leftBox: getEl(".left-box"),
+  leftBoxAlt: getEl(".left-box-alternative"),
+  rightBox: getEl(".right-box"),
+  addCardForm: getEl(".create-new-form"),
+  cardBody: getEl(".card-body"),
+  body: getEl("body"),
+  textBox: document.querySelectorAll(".text-box"),
+  // Submit
+  inputQ: getEl(".q"),
+  inputA: getEl(".a"),
+  inputSet: getEl(".set-name"),
 
-// Submit
-const inputQ = getEl(".q");
-const inputA = getEl(".a");
-const inputSet = getEl(".set-name");
+  // Notifications
+  confirmation: getEl(".confirmation"),
+  noticeDialog: getEl(".notice-dialog"),
 
-// Notifications
-const confirmation = getEl(".confirmation");
-const noticeDialog = getEl(".notice-dialog");
+  // Functions
+  displayNotice(str) {
+    const text = this.noticeDialog.querySelector("p");
+    text.textContent = str;
+    this.noticeDialog.showModal();
+  },
 
-// Functions
-function displayNotice(str) {
-  const text = noticeDialog.querySelector("p");
-  text.textContent = str;
-  noticeDialog.showModal();
-}
+  closeDialog() {
+    this.confirmation.close();
+    this.noticeDialog.close();
+  },
 
-function closeDialog() {
-  confirmation.close();
-  noticeDialog.close();
-}
-function displayConfirmationDelSet(set) {
-  confirmation.value = set;
-  confirmation.showModal();
-}
-
-export default {
-  body,
-  parentWrapper,
-  textBoxTemplate,
-  formEditTemplate,
-  tape,
-  parentSets,
-  setTemplate,
-  dropdown,
-  rightBox,
-  leftBox,
-  inputQ,
-  inputA,
-  addCardForm,
-  cardBody,
-  leftBoxAlt,
-  inputSet,
-  confirmation,
-  displayNotice,
-  noticeDialog,
-  closeDialog,
-  displayConfirmationDelSet,
+  displayConfirmationDelSet(set) {
+    this.confirmation.value = set;
+    this.confirmation.showModal();
+  },
 };
+
+export default dom;

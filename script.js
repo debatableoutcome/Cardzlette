@@ -1,4 +1,5 @@
 "use strict";
+// CARDZILLA
 
 import dom from "./dom.mjs";
 import store from "./store.mjs";
@@ -7,14 +8,17 @@ import utils from "./utils.mjs";
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Business Logic  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //--------------------------------
-function renderSet(set) {
+function renderSet(set, mode = "consectutive") {
   const obj = state.dictionary.filter((obj) => obj.set === set);
   const pairs = obj[0].cards;
-  // const curArray = state.dictionary.filter((s) => {
-  //   s.set === set;
-  // });
-  // const pairs = Object.entries(curArray);
-  return renderTape(pairs, set);
+  if (mode === "consectutive") {
+    return renderTape(pairs, set);
+  }
+  if (mode === "random") {
+    const randomPairs = utils.shuffle(pairs);
+    console.log(randomPairs);
+    return renderTape(randomPairs, set);
+  }
 }
 //-----------------------
 function renderTape(pairs, set) {
@@ -25,7 +29,7 @@ function renderTape(pairs, set) {
   // const id = Math.floor(Math.random() * 10000000);
   // console.log(id);
   dom.tape.innerHTML = "";
-  console.log(dom.tape);
+
   pairs.forEach((pair) => {
     const div = dom.textBoxTemplate.cloneNode(true);
     div.classList.remove("text-box-template");
@@ -125,6 +129,13 @@ function replacePair(obj) {
   state.dictionary[indexOfSet].cards[toBeReplaced][1] = obj.newB;
 }
 
+function timerDisplayAnswer(question, answer, ms) {
+  setTimeout(() => {
+    answer.classList.add("invisible");
+    question.classList.remove("invisible");
+  }, ms);
+}
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Event Listeners  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -136,7 +147,6 @@ dom.body.addEventListener("click", function (event) {
   const target = event.target;
   if (target.classList.contains("close-dialog-btn")) {
     console.log(target);
-
     dom.closeDialog();
   }
   if (target.classList.contains("yes-delete-btn")) {
@@ -162,20 +172,27 @@ dom.parentWrapper.addEventListener("click", function (event) {
     target.classList.contains("arrow-right") ||
     target.classList.contains("fa-chevron-right")
   ) {
-    dom.cardBody.scrollBy(0, 200);
+    if (
+      dom.cardBody.scrollTop + dom.cardBody.clientHeight >=
+      dom.cardBody.scrollHeight
+    ) {
+      hideAnswer(target);
+      // Infinite scroll to the right
+      dom.cardBody.scrollTop = 0;
+    } else {
+      dom.cardBody.scrollBy(0, 200);
+    }
   }
   if (target.classList.contains("set")) {
     //___________________---------
     console.log(target);
     const textEl = target.closest(".set");
-    // const pEl = textEl.querySelector(".text-name");
-    console.log(textEl);
     const set = textEl.textContent.toLowerCase().trim();
     return renderSet(set);
   }
 
   if (
-    // TOGGLE answer / quesion
+    // TOGGLE answer / quesion with timer
     target.classList.contains("text-box") ||
     target.classList.contains("question") ||
     target.classList.contains("answer")
@@ -188,6 +205,7 @@ dom.parentWrapper.addEventListener("click", function (event) {
     if (answer.classList.contains("invisible")) {
       answer.classList.remove("invisible");
       question.classList.add("invisible");
+      timerDisplayAnswer(question, answer, 3000);
     } else {
       answer.classList.add("invisible");
       question.classList.remove("invisible");
@@ -217,10 +235,8 @@ dom.parentWrapper.addEventListener("click", function (event) {
   // DELETE SET
   if (target.classList.contains("fa-trash-can")) {
     if (target.parentElement.classList.contains("btn-set-delete")) {
-      const text = target.parentElement.parentElement.value
-        .trim()
-        .toLowerCase();
-      dom.displayConfirmationDelSet(text);
+      const set = target.parentElement.parentElement.value.trim().toLowerCase();
+      dom.displayConfirmationDelSet(set);
     }
     // DELETE CARD
     if (target.parentElement.classList.contains("btn-del")) {
@@ -242,6 +258,7 @@ dom.parentWrapper.addEventListener("click", function (event) {
       // delete this current ui card
     }
   }
+
   // EDIT CARD
   if (
     target.classList.contains("btn-edit") ||
@@ -274,6 +291,10 @@ dom.parentWrapper.addEventListener("click", function (event) {
     // Nest the Form
     dom.cardBody.appendChild(form);
   }
+  if (target.classList.contains("btn-randomize")) {
+    const set = dom.tape.value;
+    renderSet(set, "random");
+  }
 });
 
 dom.addCardForm.addEventListener("submit", (event) => {
@@ -289,7 +310,8 @@ dom.addCardForm.addEventListener("submit", (event) => {
     dom.leftBox.classList.add("invisible");
     dom.leftBoxAlt.classList.add("invisible");
     dom.rightBox.classList.remove("invisible");
-
+    dom.inputQ.value = "";
+    dom.inputA.value = "";
     addCard(q, a, set);
     dom.displayNotice("The card successfully added!");
   }
@@ -333,21 +355,52 @@ dom.cardBody.addEventListener("submit", (event) => {
   formEdits.classList.add("invisible");
   renderSet(dom.tape.value);
 });
+dom.parentWrapper.addEventListener("focusin", (event) => {
+  const target = event.target;
+  console.log(target);
+  if (
+    target.classList.contains("fieldA") ||
+    target.classList.contains("fieldB")
+  ) {
+    const btnLeft = document.querySelector(".arrow-left");
+    const btnRight = document.querySelector(".arrow-right");
+    dom.parentSets.classList.add("disabled");
+    dom.rightBox.classList.add("disabled");
+    btnLeft.classList.add("disabled");
+    btnRight.classList.add("disabled");
+    console.log("dis added");
+  }
+});
+
+dom.parentWrapper.addEventListener("focusout", (event) => {
+  const target = event.target;
+  console.log(target);
+  if (
+    target.classList.contains("fieldA") ||
+    target.classList.contains("fieldB")
+  ) {
+    const btnLeft = document.querySelector(".arrow-left");
+    const btnRight = document.querySelector(".arrow-right");
+    dom.parentSets.classList.remove("disabled");
+    dom.rightBox.classList.remove("disabled");
+    btnLeft.classList.remove("disabled");
+    btnRight.classList.remove("disabled");
+    console.log("dis removed");
+  }
+});
 // Amendments planned:
 // FEATURES:
 // local storage
 // errors
 
 //UI:
+
 // If the list is empty display This set is empty + a button to add a card: ok cancel
 
-// randomise mode;
-
-// shift cycle
-
 //BUGS:
-// Shifting cards (close answer when shifting)
+// card buttons sensitivity
+// trashcans to be fixed
+// scrollable sets container
 
 // REF:
-// dom module redo
-// api remove
+// api remove or use

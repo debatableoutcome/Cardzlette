@@ -2,14 +2,20 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Cardzilla</title>
+    <title>Cardzlette</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gudea:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <script type="module" src="script.js" defer></script>
   </head>
   <body>
     <dialog class="notice-dialog">
       <p></p>
-      <button class="close-dialog-btn" onclick="closeDialog()">Ok</button>
+      <button class="close-dialog-btn">Ok</button>
     </dialog>
     <dialog class="confirmation">
       <header>
@@ -102,6 +108,9 @@
       <div class="btns-box">
         <button class="btn btn-edit">
           <i class="fa-regular fa-pen-to-square btn-edit"></i>
+        </button>
+        <button class="btn btn-edit">
+          <i class="fa-solid fa-shuffle btn-randomize"></i>
         </button>
         <button class="btn btn-del">
           <i class="fa-regular fa-trash-can"></i>
