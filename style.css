@@ -28,10 +28,11 @@ body {
   height: 600px;
   background-color: #c0bcbc;
   border-radius: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 5);
 }
 
 .sets-container {
+  overflow: auto;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   padding-top: 20px;
@@ -152,30 +153,43 @@ body {
 
 /* SETS */
 .set {
-  border-radius: 15px;
+  background-color: #f2e8f2;
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   cursor: pointer;
   box-shadow: 0 0 15px rgba(0, 0, 0, 5);
-  align-items: center;
-  justify-content: space-around;
+  border-radius: 15px;
   width: 90%;
   height: auto;
-  background-color: #f2e8f2;
+  padding: 10px;
 }
 
 .set:active {
   color: #e70cbe;
 }
 
-.set-name {
-  flex-wrap: wrap;
-  word-wrap: break-word;
-  padding-left: 5px;
-  display: inline-block;
-  word-wrap: break-word;
-}
+/* .set-name {
+  flex-grow: 1;
+  max-width: 80%;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-all;
+} */
 
 /* BUTTONS */
+.btn {
+  font-size: 18px;
+}
+.btn:hover {
+  border: #fb0b93 4px solid;
+}
+.btn:active {
+  color: #fb0b93;
+  transform: scale(0.99);
+  background-color: rgb(30, 31, 30);
+}
+
 .btn-exit {
   cursor: pointer;
   background-color: transparent;
@@ -193,12 +207,7 @@ body {
   font-size: 40px;
   /* padding-right: 20px; */
 }
-.fa-shuffle {
-  color: #fb0b93;
-  font-size: 20px;
-  /* padding-right: 20px; */
-}
-
+.fa-shuffle,
 .fa-regular {
   color: #fb0b93;
   font-size: 20px;
@@ -215,10 +224,10 @@ body {
   height: 200px;
   background-color: #0b0b0b;
   border: none;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 .arrow-left:active,
 .arrow-right:active {
+  border: #fb0b93 4px solid;
   color: white;
   transform: scale(0.99);
 }
@@ -246,31 +255,29 @@ body {
   color: #fb0b93;
 }
 
-.btn {
-  font-size: 18px;
-}
-.btn:hover {
-  border: #fb0b93 4px solid;
-}
-.btn:active {
-  color: #fb0b93;
-  transform: scale(0.99);
-  background-color: rgb(30, 31, 30);
-}
-
-.btn-del,
-.btn-edit {
+.btn-delete-card,
+.btn-edit,
+.btn-random {
   background-color: transparent;
   border: none;
   cursor: pointer;
 }
 .btn-set-delete {
-  background-color: transparent;
-  border: none;
+  /* 
+ 
   cursor: pointer;
   margin-bottom: 5px;
   width: 15px;
-  height: 15px;
+  height: 15px; */
+
+  border: none;
+  background-color: transparent;
+  align-self: center;
+  margin-left: auto;
+
+  /* min-width: 20%; 
+ 
+  flex: 0 0 auto; */
 }
 
 /* INPUTS & FORMS */
@@ -293,14 +300,13 @@ body {
 }
 .q,
 .a,
-#dropdown,
-.set-name {
+#dropdown {
   padding: 3px;
   border-radius: 15px;
 }
-.set-name {
+/* .set-name {
   height: 25px;
-}
+} */
 
 /* DIALOGS */
 
@@ -310,11 +316,11 @@ dialog {
   align-items: center;
   justify-content: center;
   flex-direction: column; */
-  gap: 20%;
+  /* gap: 20%; */
   margin: auto;
   background: rgba(255, 255, 255, 0.7);
   width: 400px;
-  height: 200px;
+  height: auto;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   border-radius: 15px;
   border: #fb0b93 2px solid;
@@ -322,6 +328,10 @@ dialog {
 
 dialog::backdrop {
   background: linear-gradient(rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7));
+}
+
+label {
+  font-size: 20px;
 }
 
 /* STATES */

@@ -44,7 +44,11 @@
               <br />
               <label><h4>Name your set</h4></label>
               <br />
-              <input class="set-name" type="text" />
+              <input
+                class="set-name"
+                type="text"
+                pattern="^(?:\b\w{1,15}\b\s*)*$"
+              />
               <br />
               <br />
               <button class="btn btn-submit-set" type="submit" value="add-set">
@@ -60,10 +64,10 @@
               <label><h3>Create a new card</h3></label>
               <br />
               <label><h4>Question</h4></label>
-              <input class="q" type="text" />
+              <input class="q" type="text" pattern="^(?:\b\w{1,15}\b\s*)*$" />
               <br />
               <label><h4>Answer</h4></label>
-              <input class="a" type="text" />
+              <input class="a" type="text" pattern="^(?:\b\w{1,15}\b\s*)*$" />
               <br />
               <br />
               <select id="dropdown"></select>
@@ -97,9 +101,8 @@
     ></script>
     <!-- TEMPLATES -->
     <div class="set set-template invisible">
-      <p class="set-name"></p>
       <button class="btn-set-delete">
-        <i class="fa-regular fa-trash-can"></i>
+        <i class="fa-regular fa-trash-can set-del"></i>
       </button>
     </div>
     <div class="text-box text-box-template invisible">
@@ -109,11 +112,11 @@
         <button class="btn btn-edit">
           <i class="fa-regular fa-pen-to-square btn-edit"></i>
         </button>
-        <button class="btn btn-edit">
+        <button class="btn btn-random">
           <i class="fa-solid fa-shuffle btn-randomize"></i>
         </button>
-        <button class="btn btn-del">
-          <i class="fa-regular fa-trash-can"></i>
+        <button class="btn btn-delete-card">
+          <i class="fa-regular fa-trash-can card-del"></i>
         </button>
       </div>
     </div>

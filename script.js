@@ -1,5 +1,5 @@
 "use strict";
-// CARDZILLA
+// CARDZLETTE
 
 import dom from "./dom.mjs";
 import store from "./store.mjs";
@@ -100,7 +100,6 @@ const deleteSet = (set) => {
   state.dictionary = state.dictionary.filter((item) => item.set !== set);
   renderSetsList();
   console.log(state.dictionary);
-  // dom.notice("The set is successfully deleted");
 };
 
 function deleteCard(pair, set) {
@@ -117,7 +116,6 @@ function deleteCard(pair, set) {
 
 //-------------------------
 function replacePair(obj) {
-  console.log(obj);
   // find the set
   const indexOfSet = state.dictionary.findIndex((s) => s.set === obj.set);
   // find the edited pair
@@ -184,8 +182,6 @@ dom.parentWrapper.addEventListener("click", function (event) {
     }
   }
   if (target.classList.contains("set")) {
-    //___________________---------
-    console.log(target);
     const textEl = target.closest(".set");
     const set = textEl.textContent.toLowerCase().trim();
     return renderSet(set);
@@ -233,32 +229,33 @@ dom.parentWrapper.addEventListener("click", function (event) {
     dom.rightBox.classList.remove("invisible");
   }
   // DELETE SET
-  if (target.classList.contains("fa-trash-can")) {
-    if (target.parentElement.classList.contains("btn-set-delete")) {
-      const set = target.parentElement.parentElement.value.trim().toLowerCase();
-      dom.displayConfirmationDelSet(set);
-    }
-    // DELETE CARD
-    if (target.parentElement.classList.contains("btn-del")) {
-      const set = dom.tape.value;
-      const textBox = target.parentElement.parentElement.parentElement;
-      const question =
-        target.parentElement.parentElement.parentElement.querySelector(
-          ".question"
-        ).textContent;
-      const answer =
-        target.parentElement.parentElement.parentElement.querySelector(
-          ".answer"
-        ).textContent;
-      const pair = [question, answer];
-      deleteCard(pair, set);
-      // hide card
-      textBox.classList.add("invisible");
-      dom.cardBody.scrollBy(0, 200);
-      // delete this current ui card
-    }
+  if (
+    target.classList.contains("set-del") ||
+    target.classList.contains("btn-set-delete")
+  ) {
+    console.log(target);
+    const div = target.closest(".set");
+    const set = div.textContent;
+    console.log(set.trim().toLowerCase());
+    dom.displayConfirmationDelSet(set.trim().toLowerCase());
   }
-
+  // DELETE CARD
+  if (
+    target.classList.contains("card-del") ||
+    target.classList.contains("btn-delete-card")
+  ) {
+    console.log(target);
+    const set = dom.tape.value;
+    const textBox = target.closest(".text-box");
+    console.log(textBox);
+    const question = textBox.querySelector(".question").textContent;
+    const answer = textBox.querySelector(".answer").textContent;
+    const pair = [question, answer];
+    deleteCard(pair, set);
+    // hide card
+    textBox.classList.add("invisible");
+    dom.cardBody.scrollBy(0, 200);
+  }
   // EDIT CARD
   if (
     target.classList.contains("btn-edit") ||
@@ -291,15 +288,19 @@ dom.parentWrapper.addEventListener("click", function (event) {
     // Nest the Form
     dom.cardBody.appendChild(form);
   }
-  if (target.classList.contains("btn-randomize")) {
+  // RANDOMIZE
+  if (
+    target.classList.contains("btn-random") ||
+    target.classList.contains("fa-shuffle")
+  ) {
     const set = dom.tape.value;
     renderSet(set, "random");
   }
 });
 
+// FORM SUBMIT FOR ADD CARD OR SET
 dom.addCardForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const target = event.target;
   const submitType = event.submitter.value;
   if (submitType === "add-card") {
     if (dom.inputQ.value === "" || dom.inputA.value === "") return;
@@ -317,8 +318,6 @@ dom.addCardForm.addEventListener("submit", (event) => {
   }
 
   if (submitType === "add-set") {
-    console.log("submit-set", target);
-
     if (dom.inputSet.value === "" || dom.inputSet.value === "") return;
 
     const set = dom.inputSet.value.toLowerCase();
@@ -333,6 +332,7 @@ dom.addCardForm.addEventListener("submit", (event) => {
   }
 });
 
+// FORM SUBMIT FOR CARD EDITS
 dom.cardBody.addEventListener("submit", (event) => {
   const target = event.target;
   event.preventDefault();
@@ -355,6 +355,8 @@ dom.cardBody.addEventListener("submit", (event) => {
   formEdits.classList.add("invisible");
   renderSet(dom.tape.value);
 });
+
+// FORM FOCUS/FOCUSOUT
 dom.parentWrapper.addEventListener("focusin", (event) => {
   const target = event.target;
   console.log(target);
@@ -368,7 +370,6 @@ dom.parentWrapper.addEventListener("focusin", (event) => {
     dom.rightBox.classList.add("disabled");
     btnLeft.classList.add("disabled");
     btnRight.classList.add("disabled");
-    console.log("dis added");
   }
 });
 
@@ -385,11 +386,12 @@ dom.parentWrapper.addEventListener("focusout", (event) => {
     dom.rightBox.classList.remove("disabled");
     btnLeft.classList.remove("disabled");
     btnRight.classList.remove("disabled");
-    console.log("dis removed");
   }
 });
 // Amendments planned:
+
 // FEATURES:
+
 // local storage
 // errors
 
@@ -398,9 +400,13 @@ dom.parentWrapper.addEventListener("focusout", (event) => {
 // If the list is empty display This set is empty + a button to add a card: ok cancel
 
 //BUGS:
-// card buttons sensitivity
-// trashcans to be fixed
-// scrollable sets container
 
 // REF:
 // api remove or use
+
+//DONE TODAY:
+// trashcans alignment
+// sets height auto
+// sets content to be breakable
+// set can't delete
+// scrollable sets container
