@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <title>Cardzlette</title>
-    <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Gudea:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Gudea:wght@400;700&family=Montserrat:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="style.css" />
+
     <script type="module" src="script.js" defer></script>
   </head>
   <body>
@@ -64,10 +65,19 @@
               <label><h3>Create a new card</h3></label>
               <br />
               <label><h4>Question</h4></label>
-              <input class="q" type="text" pattern="^(?:\b\w{1,15}\b\s*)*$" />
+              <input
+                class="q"
+                type="text"
+                pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
+              />
               <br />
               <label><h4>Answer</h4></label>
-              <input class="a" type="text" pattern="^(?:\b\w{1,15}\b\s*)*$" />
+              <input
+                class="a"
+                type="text"
+                required
+                pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
+              />
               <br />
               <br />
               <select id="dropdown"></select>
@@ -76,8 +86,8 @@
               </button>
             </div>
             <div class="right-box">
-              <button type="button" class="btn btn-add-card">Add a card</button>
-              <button type="button" class="btn btn-add-set">Add a set</button>
+              <button type="button" class="btn btn-add-card">NEW CARD</button>
+              <button type="button" class="btn btn-add-set">NEW SET</button>
             </div>
           </form>
         </div>
@@ -122,14 +132,28 @@
     </div>
     <div class="form-edit form-edit-template invisible">
       <form action="" class="form-edits">
-        <input class="fieldA" type="text" />
-        <br />
-        <br />
+        <div class="edit-inputs">
+          <input
+            class="fieldA"
+            name="fieldA"
+            type="text"
+            required
+            pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
+          />
 
-        <input class="fieldB" type="text" />
-        <button class="btn btn-submit-edits" type="submit" value="save-card">
-          Save Edits
-        </button>
+          <input
+            class="fieldB"
+            name="fieldB"
+            type="text"
+            required
+            pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
+          />
+        </div>
+
+        <div class="edit-buttons">
+          <button class="btn btn-cancel-edits">CANCEL</button>
+          <button class="btn btn-submit-edits" type="submit">SAVE</button>
+        </div>
       </form>
     </div>
   </body>

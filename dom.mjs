@@ -21,6 +21,7 @@ const dom = {
   inputQ: getEl(".q"),
   inputA: getEl(".a"),
   inputSet: getEl(".set-name"),
+  btnCancelEdits: getEl(".btn-cancel-edits"),
 
   // Notifications
   confirmation: getEl(".confirmation"),

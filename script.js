@@ -8,10 +8,11 @@ import utils from "./utils.mjs";
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Business Logic  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //--------------------------------
-function renderSet(set, mode = "consectutive") {
+function renderSet(set, mode = "consecutive") {
+  console.log(set);
   const obj = state.dictionary.filter((obj) => obj.set === set);
   const pairs = obj[0].cards;
-  if (mode === "consectutive") {
+  if (mode === "consecutive") {
     return renderTape(pairs, set);
   }
   if (mode === "random") {
@@ -20,41 +21,32 @@ function renderSet(set, mode = "consectutive") {
     return renderTape(randomPairs, set);
   }
 }
+
+//&&&&&&&&&&&&&&&&&&&&&&&&& RENDERS &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 //-----------------------
 function renderTape(pairs, set) {
   if (!pairs.length) {
     dom.displayNotice("This set is empty yet");
   }
-  console.log(set);
-  // const id = Math.floor(Math.random() * 10000000);
-  // console.log(id);
   dom.tape.innerHTML = "";
 
   pairs.forEach((pair) => {
     const div = dom.textBoxTemplate.cloneNode(true);
     div.classList.remove("text-box-template");
-    div.value = set;
+    // div.dataset.set = set;
     const question = div.querySelector(".question");
     question.textContent = pair[0];
-    question.value = pair[0];
+    question.dataset.original = pair[0];
     const answer = div.querySelector(".answer");
     answer.textContent = pair[1];
-    answer.value = pair[1];
+    answer.dataset.original = pair[1];
     div.classList.remove("invisible");
     dom.tape.appendChild(div);
     dom.tape.classList.remove("invisible");
-    dom.tape.value = set;
+    dom.tape.dataset.set = set;
   });
 }
-//----------------------------
-const addCard = (question, answer, set) => {
-  const index = state.dictionary.findIndex((s) => s.set === set);
-  const pair = [question, answer];
-  state.dictionary[index].cards.push(pair);
-};
 
-// (state.dictionary[set][question] = answer);
-//----------
 function renderSets(sets) {
   sets.forEach((set) => {
     // create a div
@@ -67,7 +59,8 @@ function renderSets(sets) {
     dom.parentSets.appendChild(div);
   });
 }
-//------------
+
+function renderError() {}
 function renderSetsList() {
   const sets = state.dictionary.map((set) => set.set);
   dom.parentSets.innerHTML = "";
@@ -75,18 +68,26 @@ function renderSetsList() {
   console.log(sets);
   return displayDropdown(sets);
 }
-//--------------
+
 function displayDropdown(sets) {
   dom.dropdown.innerHTML = "";
   sets.forEach((s) => {
     let option = document.createElement("option");
-    option.setAttribute("value", s);
+    option.dataset.set = s;
     let optionText = document.createTextNode(s);
     option.appendChild(optionText);
     dom.dropdown.appendChild(option);
   });
 }
-//-----------------
+
+function timerDisplayAnswer(question, answer, ms) {
+  setTimeout(() => {
+    answer.classList.add("invisible");
+    question.classList.remove("invisible");
+  }, ms);
+}
+
+//&&&&&&&&&&&&&&&&&&&&&&& MANIPULATIONS &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 const addSet = (set) => {
   const obj = {
     set,
@@ -99,7 +100,12 @@ const addSet = (set) => {
 const deleteSet = (set) => {
   state.dictionary = state.dictionary.filter((item) => item.set !== set);
   renderSetsList();
-  console.log(state.dictionary);
+};
+
+const addCard = (question, answer, set) => {
+  const index = state.dictionary.findIndex((s) => s.set === set);
+  const pair = [question, answer];
+  state.dictionary[index].cards.push(pair);
 };
 
 function deleteCard(pair, set) {
@@ -110,28 +116,19 @@ function deleteCard(pair, set) {
   state.dictionary[indexOfSet].cards = state.dictionary[
     indexOfSet
   ].cards.filter((i) => !(i[0] === pair[0] && i[1] === pair[1]));
-
-  console.log(state.dictionary[indexOfSet].cards);
 }
 
 //-------------------------
 function replacePair(obj) {
-  // find the set
+  // find the required set
   const indexOfSet = state.dictionary.findIndex((s) => s.set === obj.set);
   // find the edited pair
   const toBeReplaced = state.dictionary[indexOfSet].cards.findIndex(
-    (w) => w[0] === obj.prevValueKey
+    (w) => w[0] === obj.previousKey
   );
   // replace the pair
   state.dictionary[indexOfSet].cards[toBeReplaced][0] = obj.newA;
   state.dictionary[indexOfSet].cards[toBeReplaced][1] = obj.newB;
-}
-
-function timerDisplayAnswer(question, answer, ms) {
-  setTimeout(() => {
-    answer.classList.add("invisible");
-    question.classList.remove("invisible");
-  }, ms);
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%  Event Listeners  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,12 +140,16 @@ window.addEventListener("DOMContentLoaded", () => {
 // Notifications (dialogs)
 dom.body.addEventListener("click", function (event) {
   const target = event.target;
+  // CLOSE DIALOG
   if (target.classList.contains("close-dialog-btn")) {
     console.log(target);
     dom.closeDialog();
   }
+  // DELETE SET CONFIRMATION
   if (target.classList.contains("yes-delete-btn")) {
-    const set = target.parentElement.parentElement.value.trim().toLowerCase();
+    const set = target.parentElement.parentElement.dataset.set
+      .trim()
+      .toLowerCase();
     deleteSet(set);
     dom.closeDialog();
     dom.displayNotice("The set has been permanently deleted");
@@ -236,7 +237,6 @@ dom.parentWrapper.addEventListener("click", function (event) {
     console.log(target);
     const div = target.closest(".set");
     const set = div.textContent;
-    console.log(set.trim().toLowerCase());
     dom.displayConfirmationDelSet(set.trim().toLowerCase());
   }
   // DELETE CARD
@@ -245,7 +245,7 @@ dom.parentWrapper.addEventListener("click", function (event) {
     target.classList.contains("btn-delete-card")
   ) {
     console.log(target);
-    const set = dom.tape.value;
+    const set = dom.tape.dataset.set;
     const textBox = target.closest(".text-box");
     console.log(textBox);
     const question = textBox.querySelector(".question").textContent;
@@ -265,23 +265,24 @@ dom.parentWrapper.addEventListener("click", function (event) {
     const parent = target.closest(".text-box");
     const q = parent.querySelector(".question");
     const a = parent.querySelector(".answer");
+    console.log(parent, q, a);
     const textA = q.textContent.trim();
     const textB = a.textContent.trim();
+    console.log(textA, textB);
 
-    // Create (clone and fill in) the form
+    // Create (clone the template and fill in) the form
     const form = dom.formEditTemplate.cloneNode(true);
-    // Text A and text B before editting
+    // Take text A and text B before editting
     const fieldA = form.querySelector(".fieldA");
     fieldA.value = textA;
     const fieldB = form.querySelector(".fieldB");
     fieldB.value = textB;
     const prevValues = String(textA, `:`, textB);
-    // Setting initial values to a button
 
     form.classList.remove("invisible");
     form.classList.remove("form-edit-template");
 
-    form.value = String(prevValues);
+    form.dataset.original = String(prevValues);
 
     // Hide All
     dom.tape.classList.add("invisible");
@@ -293,7 +294,7 @@ dom.parentWrapper.addEventListener("click", function (event) {
     target.classList.contains("btn-random") ||
     target.classList.contains("fa-shuffle")
   ) {
-    const set = dom.tape.value;
+    const set = dom.tape.dataset.set;
     renderSet(set, "random");
   }
 });
@@ -318,7 +319,7 @@ dom.addCardForm.addEventListener("submit", (event) => {
   }
 
   if (submitType === "add-set") {
-    if (dom.inputSet.value === "" || dom.inputSet.value === "") return;
+    if (dom.inputSet.value === "") return;
 
     const set = dom.inputSet.value.toLowerCase();
     dom.inputSet.value = "";
@@ -344,8 +345,8 @@ dom.cardBody.addEventListener("submit", (event) => {
   const editedAB = {};
   editedAB.newA = fieldA.value;
   editedAB.newB = fieldB.value;
-  editedAB.set = dom.tape.value;
-  editedAB.prevValueKey = target.parentElement.value;
+  editedAB.set = dom.tape.dataset.set;
+  editedAB.previousKey = target.parentElement.dataset.original;
 
   dom.leftBox.classList.add("invisible");
   dom.leftBoxAlt.classList.add("invisible");
@@ -353,7 +354,7 @@ dom.cardBody.addEventListener("submit", (event) => {
 
   replacePair(editedAB);
   formEdits.classList.add("invisible");
-  renderSet(dom.tape.value);
+  renderSet(dom.tape.dataset.set);
 });
 
 // FORM FOCUS/FOCUSOUT
@@ -388,6 +389,13 @@ dom.parentWrapper.addEventListener("focusout", (event) => {
     btnRight.classList.remove("disabled");
   }
 });
+
+dom.btnCancelEdits.addEventListener("click", (event) => {
+  const form = event.target.closest(".form-edit");
+  event.preventDefault();
+  form.reset();
+  form.remove();
+});
 // Amendments planned:
 
 // FEATURES:
@@ -401,12 +409,13 @@ dom.parentWrapper.addEventListener("focusout", (event) => {
 
 //BUGS:
 
+// Notice too big
+
 // REF:
+
 // api remove or use
 
 //DONE TODAY:
-// trashcans alignment
-// sets height auto
-// sets content to be breakable
-// set can't delete
-// scrollable sets container
+// dataset
+// input edit adjust color
+// EDIT card - add cancel btn

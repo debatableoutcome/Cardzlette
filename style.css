@@ -7,6 +7,7 @@
 
 body {
   background-image: url("img/img.webp");
+  font-family: "Montserrat", sans-serif;
   background-repeat: repeat;
   height: 100vh;
   width: 100vw;
@@ -240,14 +241,36 @@ body {
 
   border-radius: 15px;
 }
+
+.btn-submit-edits {
+  color: #0c8be7;
+}
+
 .close-dialog-btn {
-  color: green;
-  border: 4px solid green;
+  color: #0de935;
+}
+
+.btn-cancel-edits {
+  color: #fb0b93;
+}
+.btn-cancel-edits:hover,
+.btn-cancel-edits:hover {
+  border: #fb0b93 4px solid;
 }
 .yes-delete-btn {
-  color: red;
-  border: 4px solid red;
+  color: #f30000;
 }
+.yes-delete-btn:hover {
+  border: #f30000 4px solid;
+}
+/* .close-dialog-btn {
+  color: #0de935;
+  border: 4px solid #0de935; */
+/* }
+.yes-delete-btn {
+  color: #e70c1a;
+  border: 4px solid #e70c1a;
+} */
 
 #close-dialog:active {
   background-color: rgb(231, 233, 231);
@@ -282,18 +305,45 @@ body {
 
 /* INPUTS & FORMS */
 
-.form-edit {
+.form-edits {
   width: 400px;
   height: 200px;
-
+  gap: 40px;
+  padding: 20px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
 }
+.edit-inputs {
+  padding-left: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.edit-buttons {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
 .fieldA,
 .fieldB {
+  background-color: #fafafa;
   border: none;
   font-size: 20px;
+}
+.fieldB {
+  color: #e70cbe;
+}
+
+.fieldA:focus,
+.fieldB:focus {
+  outline: none;
 }
 #dropdown {
   font-size: 17px;
