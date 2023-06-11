@@ -45,6 +45,8 @@ function renderTape(pairs, set) {
     dom.tape.classList.remove("invisible");
     dom.tape.dataset.set = set;
   });
+  // Wake flip buttons up
+  dom.flipBtnsState("wake");
 }
 
 function renderSets(sets) {
@@ -103,6 +105,7 @@ const deleteSet = (set) => {
 };
 
 const addCard = (question, answer, set) => {
+  console.log(question, answer, set);
   const index = state.dictionary.findIndex((s) => s.set === set);
   const pair = [question, answer];
   state.dictionary[index].cards.push(pair);
@@ -120,6 +123,7 @@ function deleteCard(pair, set) {
 
 //-------------------------
 function replacePair(obj) {
+  console.log(obj);
   // find the required set
   const indexOfSet = state.dictionary.findIndex((s) => s.set === obj.set);
   // find the edited pair
@@ -337,7 +341,7 @@ dom.addCardForm.addEventListener("submit", (event) => {
 dom.cardBody.addEventListener("submit", (event) => {
   const target = event.target;
   event.preventDefault();
-
+  console.log("hello submit");
   // retrieving data to be edited
   const fieldA = target.parentElement.querySelector(".fieldA");
   const fieldB = target.parentElement.querySelector(".fieldB");
@@ -358,6 +362,7 @@ dom.cardBody.addEventListener("submit", (event) => {
 });
 
 // FORM FOCUS/FOCUSOUT
+// FORMS ACTIVE - REST BLOCKED
 dom.parentWrapper.addEventListener("focusin", (event) => {
   const target = event.target;
   console.log(target);
@@ -373,7 +378,7 @@ dom.parentWrapper.addEventListener("focusin", (event) => {
     btnRight.classList.add("disabled");
   }
 });
-
+// FORMS NONACTIVE - REST ACTIVE
 dom.parentWrapper.addEventListener("focusout", (event) => {
   const target = event.target;
   console.log(target);
@@ -389,13 +394,14 @@ dom.parentWrapper.addEventListener("focusout", (event) => {
     btnRight.classList.remove("disabled");
   }
 });
-
+// CANCEL CARD EDITS
 dom.btnCancelEdits.addEventListener("click", (event) => {
   const form = event.target.closest(".form-edit");
   event.preventDefault();
   form.reset();
   form.remove();
 });
+
 // Amendments planned:
 
 // FEATURES:
@@ -408,14 +414,14 @@ dom.btnCancelEdits.addEventListener("click", (event) => {
 // If the list is empty display This set is empty + a button to add a card: ok cancel
 
 //BUGS:
+// Submit edits card - fix size of a field
 
-// Notice too big
+// Notice is to style cute
+// buttons flip should be only active when the set is on *
+// adding a card, then cancel - clean fields before
 
 // REF:
 
-// api remove or use
-
 //DONE TODAY:
-// dataset
-// input edit adjust color
-// EDIT card - add cancel btn
+// size of text div
+// overflow

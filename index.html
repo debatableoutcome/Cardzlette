@@ -65,19 +65,10 @@
               <label><h3>Create a new card</h3></label>
               <br />
               <label><h4>Question</h4></label>
-              <input
-                class="q"
-                type="text"
-                pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
-              />
+              <input class="q" type="text" maxlength="500" />
               <br />
               <label><h4>Answer</h4></label>
-              <input
-                class="a"
-                type="text"
-                required
-                pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
-              />
+              <input class="a" type="text" maxlength="500" />
               <br />
               <br />
               <select id="dropdown"></select>
@@ -92,14 +83,14 @@
           </form>
         </div>
         <div class="display-box">
-          <button class="arrow-left">
-            <i class="fa-solid fa-chevron-left"></i>
+          <button class="arrow-left arrow-sleep" disabled="true">
+            <i class="fa-solid fa-chevron-left icon-left flip-icon-sleep"></i>
           </button>
           <div class="card-body">
             <div class="tape"></div>
           </div>
-          <button class="arrow-right">
-            <i class="fa-solid fa-chevron-right"></i>
+          <button class="arrow-right arrow-sleep" disabled="true">
+            <i class="fa-solid fa-chevron-right icon-right flip-icon-sleep"></i>
           </button>
         </div>
       </div>
@@ -116,8 +107,10 @@
       </button>
     </div>
     <div class="text-box text-box-template invisible">
-      <p class="question"></p>
-      <p class="answer invisible"></p>
+      <div class="text-area">
+        <div class="question"></div>
+        <div class="answer invisible"></div>
+      </div>
       <div class="btns-box">
         <button class="btn btn-edit">
           <i class="fa-regular fa-pen-to-square btn-edit"></i>
@@ -137,16 +130,16 @@
             class="fieldA"
             name="fieldA"
             type="text"
+            maxlength="500"
             required
-            pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
           />
 
           <input
             class="fieldB"
             name="fieldB"
             type="text"
+            maxlength="500"
             required
-            pattern="^(?!\s*$)(?:\b\w{1,15}\b\s*)+$"
           />
         </div>
 

@@ -17,6 +17,11 @@ const dom = {
   cardBody: getEl(".card-body"),
   body: getEl("body"),
   textBox: document.querySelectorAll(".text-box"),
+  flipRight: getEl(".arrow-right"),
+  flipLeft: getEl(".arrow-left"),
+  iconFlipRight: getEl(".icon-right"),
+  iconFlipLeft: getEl(".icon-left"),
+
   // Submit
   inputQ: getEl(".q"),
   inputA: getEl(".a"),
@@ -42,6 +47,25 @@ const dom = {
   displayConfirmationDelSet(set) {
     this.confirmation.value = set;
     this.confirmation.showModal();
+  },
+
+  flipBtnsState(state) {
+    if (state === "wake") {
+      this.flipLeft.disabled = false;
+      this.flipRight.disabled = false;
+      this.flipLeft.classList.remove("arrow-sleep");
+      this.flipRight.classList.remove("arrow-sleep");
+      this.iconFlipLeft.classList.remove("flip-icon-sleep");
+      this.iconFlipRight.classList.remove("flip-icon-sleep");
+    }
+    if (state === "sleep") {
+      this.flipLeft.disabled = true;
+      this.flipRight.disabled = true;
+      this.flipLeft.classList.add("arrow-sleep");
+      this.flipRight.classList.add("arrow-sleep");
+      this.iconFlipLeft.classList.add("icon-flip-sleep");
+      this.iconFlipRight.classList.add("icon-flip-sleep");
+    }
   },
 };
 
